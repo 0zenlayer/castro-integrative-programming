@@ -1,17 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Portfolio</title>
+    <title>VitalCare Technologies | Advanced Medical Diagnostics</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <p class="castro">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim dolorum a,
-      odit omnis ea non vitae illum alias, quos iure nam. Voluptatum, odio autem
-      deleniti nobis dicta distinctio velit numquam.
-    </p>
-    <button type="button" class="delete">Delete</button>
+    <!-- Animated Background Elements -->
+    <div class="bg-bubbles">
+      <div class="bubble bubble-1"></div>
+      <div class="bubble bubble-2"></div>
+      <div class="bubble bubble-3"></div>
+      <div class="bubble bubble-4"></div>
+      <div class="bubble bubble-5"></div>
+    </div>
+
+    <!-- Header/Navigation -->
+    <header class="header">
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span class="logo-text"
+              >Vital<span class="logo-highlight">Care</span>Tech</span
+            >
+          </div>
+          <ul class="nav-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="hero-title">
+              Precision <span class="highlight">Diagnostics</span> for Better
+              Health
+            </h1>
+            <p class="hero-description">
+              VitalCare Technologies delivers cutting-edge medical diagnostics
+              and laboratory solutions that revolutionize patient care through
+              advanced biotechnology and quantum computing.
+            </p>
+            <div class="hero-buttons">
+              <button class="cta-button">
+                <i class="fas fa-flask"></i> Explore Diagnostics
+              </button>
+              <button class="secondary-button">
+                <i class="fas fa-calendar-check"></i> Schedule Appointment
+              </button>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-item">
+                <div class="stat-number">98.7%</div>
+                <div class="stat-label">Diagnostic Accuracy</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Lab Availability</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Medical Patents</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" id="solutions">
+      <div class="container">
+        <h2 class="section-title">
+          Medical <span class="highlight">Solutions</span>
+        </h2>
+        <p class="section-subtitle">
+          Advanced diagnostics for modern healthcare challenges
+        </p>
+
+        <div class="solutions-grid">
+          <div class="solution-card">
+            <div class="solution-icon">
+              <i class="fas fa-dna"></i>
+            </div>
+            <h3 class="solution-title">Genomic Analysis</h3>
+            <p class="solution-description">
+              Comprehensive DNA sequencing and genetic profiling for
+              personalized medicine and targeted treatments.
+            </p>
+            <div class="solution-glow"></div>
+          </div>
+
+          <div class="solution-card">
+            <div class="solution-icon">
+              <i class="fas fa-microscope"></i>
+            </div>
+            <h3 class="solution-title">Lab Automation</h3>
+            <p class="solution-description">
+              Fully automated laboratory systems with robotic sample processing
+              and real-time quality monitoring.
+            </p>
+            <div class="solution-glow"></div>
+          </div>
+
+          <div class="solution-card">
+            <div class="solution-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="solution-title">Predictive Analytics</h3>
+            <p class="solution-description">
+              Advanced data analysis tools for identifying health trends and
+              early detection of potential issues.
+            </p>
+            <div class="solution-glow"></div>
+          </div>
+
+          <div class="solution-card">
+            <div class="solution-icon">
+              <i class="fas fa-tablets"></i>
+            </div>
+            <h3 class="solution-title">Drug Discovery</h3>
+            <p class="solution-description">
+              Quantum computing platforms accelerating pharmaceutical research
+              and novel treatment development.
+            </p>
+            <div class="solution-glow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <i class="fas fa-heartbeat"></i>
+            <span class="logo-text"
+              >Vital<span class="logo-highlight">Care</span>Tech</span
+            >
+          </div>
+          <p class="footer-text">
+            &copy; 2023 VitalCare Technologies. All rights reserved.<br />
+            Advancing healthcare through innovative diagnostics.
+          </p>
+          <div class="footer-contact">
+            <div class="contact-info">
+              <p><i class="fas fa-map-marker-alt"></i> 123 IPT Street</p>
+              <p><i class="fas fa-phone"></i> (800) 555-HEALTH</p>
+              <p><i class="fas fa-envelope"></i> info@vitalcaretech.com</p>
+            </div>
+          </div>
+          <div class="footer-social">
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-note">
+          <p>
+            <strong>Medical Technology Project</strong> | Created for
+            Integrative Programming
+          </p>
+          <p class="tech-note">
+            This is a conceptual design for a medical diagnostics company.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Optional JavaScript for interactive elements -->
+    <script>
+      // Simple hover effect for solution cards
+      document.querySelectorAll(".solution-card").forEach((card) => {
+        card.addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-10px)";
+        });
+
+        card.addEventListener("mouseleave", function () {
+          this.style.transform = "translateY(0)";
+        });
+      });
+
+      // Animate bubbles in background
+      function animateBubbles() {
+        const bubbles = document.querySelectorAll(".bubble");
+        bubbles.forEach((bubble, index) => {
+          // Set random animation duration and delay
+          const duration = 15 + Math.random() * 20;
+          const delay = Math.random() * 5;
+
+          bubble.style.animationDuration = `${duration}s`;
+          bubble.style.animationDelay = `${delay}s`;
+        });
+      }
+
+      // Initialize animations when page loads
+      window.addEventListener("load", function () {
+        animateBubbles();
+      });
+    </script>
   </body>
 </html>
