@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitalCare Technologies | Settings</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header/Navigation -->
+    <header class="header">
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span class="logo-text">VitalCare</span>
+          </div>
+          <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="settings.html" class="active">Settings</a></li>
+            <li><a href="login.html">Logout</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Settings Section -->
+    <section class="settings-section">
+      <div class="container">
+        <div class="settings-container">
+          <!-- Back Button -->
+          <div class="back-nav">
+            <a href="profile.html" class="back-link">
+              <i class="fas fa-arrow-left"></i> Back to Profile
+            </a>
+          </div>
+
+          <h1 class="settings-title">Settings</h1>
+
+          <!-- Settings Form -->
+          <div class="simple-card">
+            <h3><i class="fas fa-user-edit"></i> Personal Information</h3>
+
+            <form class="settings-form">
+              <!-- Email -->
+              <div class="form-group">
+                <label for="email">
+                  <i class="fas fa-envelope"></i> Change Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value="gregory.house.md@gmail.com"
+                />
+                <small class="form-note"
+                  >Synchronized with external identity provider</small
+                >
+              </div>
+
+          <!-- Security Settings -->
+          <div class="simple-card">
+            <h3><i class="fas fa-shield-alt"></i> Security</h3>
+
+            <form class="settings-form">
+              <!-- Password -->
+              <div class="form-group">
+                <label for="password">
+                  <i class="fas fa-lock"></i> Change Password
+                </label>
+                <div class="password-group">
+                  <input
+                    type="password"
+                    id="current-password"
+                    placeholder="Current Password"
+                  />
+                  <input
+                    type="password"
+                    id="new-password"
+                    placeholder="New Password"
+                  />
+                  <input
+                    type="password"
+                    id="confirm-password"
+                    placeholder="Confirm Password"
+                  />
+                </div>
+                <small class="form-note"
+                  >Argon2id hashing in future builds</small
+                >
+              </div>
+
+              <!-- Theme -->
+              <div class="form-group">
+                <label for="theme">
+                  <i class="fas fa-palette"></i> Theme
+                </label>
+                <select id="theme">
+                  <option value="auto">System Default</option>
+                </select>
+              </div>
+
+              <!-- Notifications -->
+              <div class="checkbox-group">
+                <label>
+                  <input type="checkbox" checked />
+                  <span>Email Notifications</span>
+                </label>
+              </div>
+            </form>
+          </div>
+
+          <!-- Save Button -->
+          <div class="settings-actions">
+            <button
+              class="save-button"
+              onclick="alert('Settings saved! (UI demo)')"
+            >
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <i class="fas fa-heartbeat"></i> VitalCare
+          </div>
+          <p class="footer-text">&copy; 2023 VitalCare Technologies</p>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      /* Simplified Settings Styles */
+      .settings-section {
+        padding: 40px 0;
+        min-height: 70vh;
+      }
+
+      .settings-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .back-nav {
+        margin-bottom: 20px;
+      }
+
+      .back-link {
+        color: #00bcd4;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      .settings-title {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 30px;
+        color: white;
+      }
+
+      .simple-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .simple-card h3 {
+        color: white;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.2rem;
+      }
+
+      .settings-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-group label {
+        color: white;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        color: white;
+        font-size: 1rem;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #00bcd4;
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 60px;
+        font-family: inherit;
+      }
+
+      .form-note {
+        color: #a0d2e8;
+        font-size: 0.85rem;
+        font-style: italic;
+      }
+
+      .password-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .checkbox-group {
+        margin-top: 10px;
+      }
+
+      .checkbox-group label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+        cursor: pointer;
+      }
+
+      .checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #00bcd4;
+      }
+
+      .settings-actions {
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      .save-button {
+        background: #1a73e8;
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: background 0.3s;
+      }
+
+      .save-button:hover {
+        background: #0d62d9;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .settings-section {
+          padding: 20px 0;
+        }
+
+        .settings-title {
+          font-size: 1.5rem;
+        }
+
+        .simple-card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </body>
+</html>

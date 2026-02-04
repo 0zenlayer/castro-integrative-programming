@@ -38,6 +38,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="index.html#solutions">Solutions</a></li>
             <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="profile.html">Profile</a></li>
             <li><a href="login.html" class="active">Login</a></li>
           </ul>
         </nav>
@@ -89,7 +90,14 @@
               <a href="#" class="forgot-link">Forgot Password?</a>
             </div>
 
-            <button type="submit" class="auth-button">
+            <button
+              type="submit"
+              class="auth-button"
+              onclick="
+                window.location.href = 'profile.html';
+                return false;
+              "
+            >
               <i class="fas fa-sign-in-alt"></i> Login to Dashboard
             </button>
 
