@@ -41,9 +41,17 @@ function handleLogin() {
   }
 
   showSuccess("Login successful! Redirecting...");
+
   setTimeout(() => {
-    window.location.href = "profile.html";
-  }, 1500);
+    // Admin login example
+    if (email === "admin@vitalcare.com") {
+      localStorage.setItem("role", "admin");
+      window.location.href = "admin.html";
+    } else {
+      localStorage.setItem("role", "user");
+      window.location.href = "profile.html";
+    }
+  }, 1000);
 }
 
 // ===============================
@@ -122,4 +130,61 @@ function showError(message) {
 
 function showSuccess(message) {
   alert("✅ " + message);
+}
+
+// ===============================
+// ADMIN ACCESS CONTROL
+// ===============================
+
+function checkAdminAccess() {
+  const role = localStorage.getItem("role");
+
+  if (role !== "admin") {
+    alert("Access denied. Admins only.");
+    window.location.href = "profile.html";
+  }
+}
+
+// ===============================
+// ADD USER FUNCTION
+// ===============================
+
+const form = document.getElementById("addUserForm");
+
+if (form) {
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const role = document.getElementById("role").value;
+
+    const table = document.getElementById("userTable");
+
+    const newRow = table.insertRow();
+
+    newRow.innerHTML = `
+<td>${table.rows.length}</td>
+<td>${name}</td>
+<td>${email}</td>
+<td>${role}</td>
+<td>
+  <button class="delete-btn" onclick="deleteRow(this)">
+    <i class="fas fa-trash"></i>
+  </button>
+</td>
+`;
+
+    form.reset();
+  });
+}
+
+// ===============================
+// DELETE USER
+// ===============================
+
+function deleteRow(button) {
+  const row = button.parentElement.parentElement;
+
+  row.remove();
 }

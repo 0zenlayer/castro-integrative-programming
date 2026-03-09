@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitalCare Technologies | Manage Users</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body onload="checkAdminAccess()">
+    <!-- Background -->
+    <div class="bg-bubbles">
+      <div class="bubble bubble-1"></div>
+      <div class="bubble bubble-2"></div>
+      <div class="bubble bubble-3"></div>
+      <div class="bubble bubble-4"></div>
+      <div class="bubble bubble-5"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <span class="logo-text"
+              >Vital<span class="logo-highlight">Care</span>Tech</span
+            >
+          </div>
+
+          <ul class="nav-menu">
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="admin.html">Admin</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="index.html">Logout</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Manage Users Section -->
+    <section class="auth-section">
+      <div class="container">
+        <div class="auth-container">
+          <div class="auth-header">
+            <i class="fas fa-users-cog"></i>
+            <h2 class="auth-title">Manage Users</h2>
+            <p class="auth-subtitle">Add or remove users from the system</p>
+          </div>
+
+          <!-- User Table -->
+          <div class="admin-card">
+            <h3>User List</h3>
+
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="userTable">
+                <tr>
+                  <td>1</td>
+                  <td>Ana</td>
+                  <td>ana@email.com</td>
+                  <td>User</td>
+                  <td>
+                    <button class="delete-btn" onclick="deleteRow(this)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>2</td>
+                  <td>Juan</td>
+                  <td>juan@email.com</td>
+                  <td>User</td>
+                  <td>
+                    <button class="delete-btn" onclick="deleteRow(this)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <br />
+
+          <!-- Add User Form -->
+          <div class="admin-card">
+            <h3>Add New User</h3>
+
+            <form id="addUserForm" class="admin-form">
+              <input type="text" id="name" placeholder="Full Name" required />
+
+              <input
+                type="email"
+                id="email"
+                placeholder="Email Address"
+                required
+              />
+
+              <select id="role">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+
+              <button type="submit" class="auth-button">
+                <i class="fas fa-user-plus"></i> Add User
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="footer-text">VitalCare Technologies Admin Panel</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
