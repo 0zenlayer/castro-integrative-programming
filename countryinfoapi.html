@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Country Search · Google style logo</title>
+    <!-- google-inspired logo + clean search engine layout -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        background: #f9fbfd;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1.5rem 1rem;
+      }
+
+      .search-engine-container {
+        max-width: 800px;
+        width: 100%;
+      }
+
+      /* ---------- GOOGLE-LIKE LOGO (classic colors) ---------- */
+      .google-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.2rem;
+        font-size: 3.2rem;
+        font-weight: 550;
+        letter-spacing: -2px;
+        line-height: 1.2;
+        margin: 0.5rem 0 0.8rem 0;
+        flex-wrap: wrap;
+      }
+      .google-logo span {
+        display: inline-block;
+        transform: scaleX(1);
+      }
+      .g-letter {
+        color: #4285f4;
+      } /* google blue */
+      .o1-letter {
+        color: #ea4335;
+      } /* google red */
+      .o2-letter {
+        color: #fbbc05;
+      } /* google yellow */
+      .g2-letter {
+        color: #4285f4;
+      } /* blue again */
+      .l-letter {
+        color: #34a853;
+      } /* google green */
+      .e-letter {
+        color: #ea4335;
+      } /* red */
+
+      .country-text {
+        font-size: 2.4rem;
+        font-weight: 400;
+        color: #5f6368;
+        margin-left: 12px;
+        letter-spacing: -1px;
+        border-left: 2px solid #dfe4e9;
+        padding-left: 18px;
+      }
+      /* for smaller screens */
+      @media (max-width: 520px) {
+        .google-logo {
+          font-size: 2.5rem;
+        }
+        .country-text {
+          font-size: 1.8rem;
+        }
+      }
+
+      /* search bar (google style) */
+      .search-bar-wrapper {
+        width: 100%;
+        margin: 1.8rem 0 1.5rem 0;
+      }
+      .search-form {
+        display: flex;
+        align-items: center;
+        background: white;
+        border: 1px solid #dfe1e5;
+        border-radius: 50px;
+        padding: 0.2rem 0.2rem 0.2rem 1.8rem;
+        box-shadow: 0 1px 6px rgba(32, 33, 36, 0.08);
+        transition:
+          box-shadow 0.2s,
+          border-color 0.2s;
+      }
+      .search-form:focus-within {
+        box-shadow: 0 4px 12px rgba(0, 45, 85, 0.12);
+        border-color: #8ab4f8;
+      }
+      .search-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 1.1rem;
+        padding: 0.9rem 0.5rem 0.9rem 0;
+        background: transparent;
+        color: #202124;
+      }
+      .search-input::placeholder {
+        color: #9aa0a6;
+      }
+      .search-buttons {
+        display: flex;
+        gap: 0.5rem;
+        padding-right: 0.5rem;
+      }
+      .search-btn,
+      .lucky-btn {
+        border: none;
+        background: none;
+        padding: 0.7rem 1.3rem;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #3c4043;
+        cursor: pointer;
+        transition: 0.1s;
+        white-space: nowrap;
+      }
+      .search-btn {
+        background: #f2f4f7;
+      }
+      .search-btn:hover {
+        background: #e8eaed;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .lucky-btn {
+        background: #f8f9fa;
+        border: 1px solid #dadce0;
+      }
+      .lucky-btn:hover {
+        background: #f1f3f4;
+        border-color: #c0c4c9;
+      }
+
+      /* joke strip (doodle style) */
+      .joke-strip {
+        background: #e9f1fc;
+        border-radius: 40px;
+        padding: 0.7rem 1.5rem;
+        margin: 0 0 2rem 0;
+        font-size: 1rem;
+        color: #1f3c68;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        border: 1px solid #bdd3f0;
+      }
+      .joke-text {
+        font-style: italic;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 550px;
+      }
+      .joke-refresh {
+        background: white;
+        border-radius: 30px;
+        padding: 0.2rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid #7b9fd0;
+        color: #1a3b5c;
+        transition: 0.1s;
+      }
+      .joke-refresh:hover {
+        background: #dde9fb;
+      }
+
+      /* results panel */
+      .results-panel {
+        background: white;
+        border-radius: 28px;
+        padding: 1.8rem 1.8rem 1.5rem;
+        box-shadow: 0 5px 25px rgba(0, 20, 40, 0.08);
+        border: 1px solid #e5eef8;
+        min-height: 300px;
+      }
+
+      .result-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #e8eef3;
+        padding-bottom: 0.8rem;
+      }
+      .result-header h2 {
+        font-size: 1.3rem;
+        font-weight: 450;
+        color: #1f344b;
+      }
+      .result-badge {
+        background: #e2ebf6;
+        border-radius: 30px;
+        padding: 0.25rem 1rem;
+        font-size: 0.85rem;
+        color: #20456e;
+      }
+
+      /* country snippet card */
+      .country-snippet {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: center;
+        margin-top: 0.5rem;
+      }
+      .flag-box {
+        flex: 0 0 130px;
+        text-align: center;
+      }
+      .flag-box img {
+        width: 100%;
+        border-radius: 18px;
+        box-shadow: 0 8px 18px -6px #a5bbd5;
+        border: 3px solid white;
+        background: #f3f7fd;
+      }
+      .flag-placeholder {
+        width: 130px;
+        height: 90px;
+        background: #dae5f2;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2d4f78;
+        font-size: 0.9rem;
+      }
+      .info-panel {
+        flex: 1 1 260px;
+      }
+      .info-grid {
+        display: grid;
+        grid-template-columns: minmax(95px, auto) 1fr;
+        gap: 0.9rem 1.5rem;
+        background: #f6faff;
+        padding: 1.4rem 1.8rem;
+        border-radius: 28px;
+        align-items: baseline;
+      }
+      .grid-label {
+        font-weight: 600;
+        color: #1b3e64;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+      }
+      .grid-value {
+        color: #101f31;
+        font-weight: 500;
+        word-break: break-word;
+      }
+      .grid-value.capital {
+        font-size: 1.2rem;
+        font-weight: 550;
+      }
+
+      /* loading, error, empty */
+      .loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.7rem;
+        padding: 3rem 0;
+        color: #38658f;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .error-banner {
+        background: #fff0e5;
+        border-radius: 50px;
+        padding: 1.2rem 2rem;
+        border: 1px solid #ffb08c;
+        color: #b13e12;
+        font-weight: 500;
+        margin: 1.2rem 0;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: #5c6f88;
+      }
+
+      footer {
+        margin-top: 2rem;
+        font-size: 0.75rem;
+        color: #6f7f99;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="search-engine-container">
+      <!-- GOOGLE-INSPIRED LOGO with classic blue/red/yellow/green -->
+      <div class="google-logo">
+        <span class="g-letter">G</span>
+        <span class="o1-letter">o</span>
+        <span class="o2-letter">o</span>
+        <span class="g2-letter">g</span>
+        <span class="l-letter">l</span>
+        <span class="e-letter">e</span>
+        <span class="country-text">Country</span>
+      </div>
+
+      <!-- main search bar (exactly like google style) -->
+      <div class="search-bar-wrapper">
+        <div class="search-form">
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="search for a country... e.g. Brazil"
+            value="Italy"
+          />
+          <div class="search-buttons">
+            <button class="search-btn" id="searchButton">🔎 Search</button>
+            <button class="lucky-btn" id="luckyButton">
+              🎲 Random Country
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- joke strip (fun fact area) -->
+      <div class="joke-strip" id="jokeStrip">
+        <span class="joke-text" id="jokeText"
+          >😂 loading a programming joke...</span
+        >
+        <span class="joke-refresh" id="refreshJoke">↻ another</span>
+      </div>
+
+      <!-- results panel -->
+      <div class="results-panel" id="resultsPanel">
+        <div class="result-header">
+          <h2 id="resultHeading">🌐 country results</h2>
+          <div class="result-badge" id="resultMeta">exact match</div>
+        </div>
+
+        <!-- dynamic containers -->
+        <div id="countryDisplay"></div>
+        <div id="loadingIndicator" class="loader hidden">⏳ searching ...</div>
+        <div id="errorBox" class="error-banner hidden">
+          <span>⚠️</span>
+          <span id="errorMessage"></span>
+        </div>
+        <div id="emptyBox" class="empty-state hidden">
+          ✨ enter a country name to see details
+        </div>
+      </div>
+
+      <footer>
+        🗺️ data: restcountries.com · 😆 official-joke-api · Google-style logo
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        // DOM elements
+        const searchInput = document.getElementById("searchInput");
+        const searchBtn = document.getElementById("searchButton");
+        const luckyBtn = document.getElementById("luckyButton");
+        const jokeText = document.getElementById("jokeText");
+        const refreshJoke = document.getElementById("refreshJoke");
+        const resultHeading = document.getElementById("resultHeading");
+        const resultMeta = document.getElementById("resultMeta");
+        const countryDisplay = document.getElementById("countryDisplay");
+        const loadingIndicator = document.getElementById("loadingIndicator");
+        const errorBox = document.getElementById("errorBox");
+        const errorMessage = document.getElementById("errorMessage");
+        const emptyBox = document.getElementById("emptyBox");
+
+        // helper ui
+        function showLoading(show = true) {
+          if (show) {
+            loadingIndicator.classList.remove("hidden");
+            countryDisplay.innerHTML = "";
+            errorBox.classList.add("hidden");
+            emptyBox.classList.add("hidden");
+          } else {
+            loadingIndicator.classList.add("hidden");
+          }
+        }
+
+        function showError(msg) {
+          errorMessage.innerText = msg;
+          errorBox.classList.remove("hidden");
+          countryDisplay.innerHTML = "";
+          emptyBox.classList.add("hidden");
+          loadingIndicator.classList.add("hidden");
+          resultHeading.innerText = "⚠️ search error";
+          resultMeta.innerText = "invalid";
+        }
+
+        function clearAll() {
+          errorBox.classList.add("hidden");
+          emptyBox.classList.add("hidden");
+        }
+
+        // joke api
+        async function updateJoke() {
+          try {
+            const res = await fetch(
+              "https://official-joke-api.appspot.com/random_joke",
+            );
+            if (!res.ok) throw new Error();
+            const joke = await res.json();
+            jokeText.innerText = `😂 ${joke.setup} — ${joke.punchline}`;
+          } catch {
+            jokeText.innerText =
+              "😂 Q: What do you call a country that never forgets? A: Re-public.";
+          }
+        }
+        updateJoke();
+        refreshJoke.addEventListener("click", updateJoke);
+
+        // render country card
+        function renderCountry(country) {
+          let flagHtml = "";
+          if (country.flags?.png) {
+            flagHtml = `<img src="${country.flags.png}" alt="flag">`;
+          } else if (country.flags?.svg) {
+            flagHtml = `<img src="${country.flags.svg}" alt="flag">`;
+          } else {
+            flagHtml = `<div class="flag-placeholder">🏳️ no flag</div>`;
+          }
+
+          const pop = country.population
+            ? country.population.toLocaleString()
+            : "N/A";
+          let capital = "N/A";
+          if (
+            country.capital &&
+            Array.isArray(country.capital) &&
+            country.capital.length
+          ) {
+            capital = country.capital.join(", ");
+          }
+          const region = country.region || "—";
+          const sub = country.subregion || "—";
+          let lang = "N/A";
+          if (country.languages) {
+            lang = Object.values(country.languages).join(", ");
+          }
+          let curr = "N/A";
+          if (country.currencies) {
+            const code = Object.keys(country.currencies)[0];
+            if (code) {
+              const c = country.currencies[code];
+              curr = `${c.name} (${c.symbol || ""})`.trim();
+            }
+          }
+
+          const html = `
+                <div class="country-snippet">
+                    <div class="flag-box">
+                        ${flagHtml}
+                    </div>
+                    <div class="info-panel">
+                        <div class="info-grid">
+                            <span class="grid-label">capital</span>
+                            <span class="grid-value capital">${capital}</span>
+                            
+                            <span class="grid-label">population</span>
+                            <span class="grid-value">${pop}</span>
+                            
+                            <span class="grid-label">region</span>
+                            <span class="grid-value">${region} · ${sub}</span>
+                            
+                            <span class="grid-label">languages</span>
+                            <span class="grid-value">${lang}</span>
+                            
+                            <span class="grid-label">currency</span>
+                            <span class="grid-value">${curr}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+          countryDisplay.innerHTML = html;
+        }
+
+        // fetch country by exact name
+        async function fetchCountry(query) {
+          const trimmed = query.trim();
+          if (trimmed === "") {
+            showError('type a country name — like "Canada"');
+            return;
+          }
+
+          clearAll();
+          showLoading(true);
+          resultHeading.innerText = `🔍 searching "${trimmed}"`;
+          resultMeta.innerText = "looking up";
+
+          try {
+            const url = `https://restcountries.com/v3.1/name/${encodeURIComponent(trimmed)}?fullText=true`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+              if (response.status === 404) {
+                throw new Error(
+                  `No exact match for "${trimmed}". Try "I'm lucky" or check spelling.`,
+                );
+              } else {
+                throw new Error(
+                  `API error (${response.status}) — try again later.`,
+                );
+              }
+            }
+
+            const data = await response.json();
+            if (!data || data.length === 0) {
+              throw new Error(`no country data for "${trimmed}"`);
+            }
+
+            const country = data[0];
+            renderCountry(country);
+            resultHeading.innerText = `🌎 ${country.name.common}`;
+            resultMeta.innerText = "official name";
+          } catch (err) {
+            showError(err.message);
+          } finally {
+            showLoading(false);
+          }
+        }
+
+        // random country
+        async function fetchRandomCountry() {
+          clearAll();
+          showLoading(true);
+          resultHeading.innerText = "🎲 picking random country";
+          resultMeta.innerText = "surprise me";
+
+          try {
+            const res = await fetch(
+              "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,languages,currencies",
+            );
+            if (!res.ok) throw new Error(`API error ${res.status}`);
+            const all = await res.json();
+            if (!all.length) throw new Error("no country list");
+            const randomIndex = Math.floor(Math.random() * all.length);
+            const country = all[randomIndex];
+            renderCountry(country);
+            resultHeading.innerText = `🎲 random: ${country.name.common}`;
+            resultMeta.innerText = "just for fun";
+          } catch (err) {
+            showError("random failed: " + err.message);
+          } finally {
+            showLoading(false);
+          }
+        }
+
+        // event listeners
+        searchBtn.addEventListener("click", () => {
+          fetchCountry(searchInput.value);
+        });
+
+        luckyBtn.addEventListener("click", () => {
+          fetchRandomCountry();
+        });
+
+        searchInput.addEventListener("keyup", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            fetchCountry(searchInput.value);
+          }
+        });
+
+        // initial load (Italy as default)
+        fetchCountry("Italy").catch(() => {});
+
+        // also allow clicking on the logo part just for fun (no action)
+      })();
+    </script>
+  </body>
+</html>
