@@ -73,7 +73,33 @@
         border-left: 2px solid #dfe4e9;
         padding-left: 18px;
       }
-      /* for smaller screens */
+
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin: 0.5rem 0 1rem 0;
+      }
+      .nav-links a {
+        color: #1a3b5c;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.4rem 1.2rem;
+        border-radius: 40px;
+        background: #eef3fc;
+        border: 1px solid #cddff5;
+        transition: 0.2s;
+      }
+      .nav-links a:hover {
+        background: #dae6f8;
+        border-color: #7b9fd0;
+      }
+      .nav-links a.active {
+        background: #1e3a5f;
+        color: white;
+        border-color: #1e3a5f;
+      }
+
       @media (max-width: 520px) {
         .google-logo {
           font-size: 2.5rem;
@@ -278,6 +304,60 @@
         font-weight: 550;
       }
 
+      /* save button */
+      .save-section {
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        align-items: center;
+      }
+      .save-btn {
+        background: #34a853;
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 10px rgba(52, 168, 83, 0.3);
+      }
+      .save-btn:hover {
+        background: #2d8e46;
+        transform: scale(1.02);
+      }
+      .save-btn.saved {
+        background: #9aa0a6;
+        cursor: not-allowed;
+        opacity: 0.7;
+        box-shadow: none;
+      }
+      .save-btn.saved:hover {
+        transform: none;
+        background: #9aa0a6;
+      }
+      .save-message {
+        color: #34a853;
+        font-weight: 500;
+        font-size: 0.95rem;
+        animation: fadeIn 0.3s;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       /* loading, error, empty */
       .loader {
         display: flex;
@@ -329,7 +409,13 @@
         <span class="country-text">Country</span>
       </div>
 
-      <!-- main search bar (exactly like google style) -->
+      <!-- navigation links -->
+      <div class="nav-links">
+        <a href="#" class="active">🔍 Search</a>
+        <a href="saved.html" id="savedLink">📋 Saved Items</a>
+      </div>
+
+      <!-- main search bar -->
       <div class="search-bar-wrapper">
         <div class="search-form">
           <input
@@ -348,7 +434,7 @@
         </div>
       </div>
 
-      <!-- joke strip (fun fact area) -->
+      <!-- joke strip -->
       <div class="joke-strip" id="jokeStrip">
         <span class="joke-text" id="jokeText"
           >😂 loading a programming joke...</span
@@ -373,10 +459,17 @@
         <div id="emptyBox" class="empty-state hidden">
           ✨ enter a country name to see details
         </div>
+
+        <!-- save section (appears when country is loaded) -->
+        <div id="saveSection" class="save-section hidden">
+          <div id="saveMessage" class="save-message"></div>
+          <button id="saveButton" class="save-btn">💾 Save this country</button>
+        </div>
       </div>
 
       <footer>
-        🗺️ data: restcountries.com · 😆 official-joke-api · Google-style logo
+        🗺️ data: restcountries.com · 😆 official-joke-api · localStorage save
+        feature
       </footer>
     </div>
 
@@ -395,6 +488,11 @@
         const errorBox = document.getElementById("errorBox");
         const errorMessage = document.getElementById("errorMessage");
         const emptyBox = document.getElementById("emptyBox");
+        const saveSection = document.getElementById("saveSection");
+        const saveButton = document.getElementById("saveButton");
+        const saveMessage = document.getElementById("saveMessage");
+
+        let currentCountry = null; // store currently displayed country
 
         // helper ui
         function showLoading(show = true) {
@@ -403,6 +501,7 @@
             countryDisplay.innerHTML = "";
             errorBox.classList.add("hidden");
             emptyBox.classList.add("hidden");
+            saveSection.classList.add("hidden");
           } else {
             loadingIndicator.classList.add("hidden");
           }
@@ -414,6 +513,7 @@
           countryDisplay.innerHTML = "";
           emptyBox.classList.add("hidden");
           loadingIndicator.classList.add("hidden");
+          saveSection.classList.add("hidden");
           resultHeading.innerText = "⚠️ search error";
           resultMeta.innerText = "invalid";
         }
@@ -440,13 +540,97 @@
         updateJoke();
         refreshJoke.addEventListener("click", updateJoke);
 
+        // check if country is already saved
+        function isCountrySaved(countryId) {
+          const saved = localStorage.getItem("savedCountries");
+          if (!saved) return false;
+          const countries = JSON.parse(saved);
+          return countries.some((c) => c.cca2 === countryId); // cca2 is country code
+        }
+
+        // update save button state
+        function updateSaveButtonState() {
+          if (!currentCountry) return;
+
+          if (isCountrySaved(currentCountry.cca2)) {
+            saveButton.classList.add("saved");
+            saveButton.innerHTML = "✓ Already saved";
+            saveButton.disabled = true;
+          } else {
+            saveButton.classList.remove("saved");
+            saveButton.innerHTML = "💾 Save this country";
+            saveButton.disabled = false;
+          }
+        }
+
+        // save current country to localStorage
+        function saveCurrentCountry() {
+          if (!currentCountry) return;
+
+          // check for duplicates
+          if (isCountrySaved(currentCountry.cca2)) {
+            saveMessage.innerText = "⚠️ This country is already saved!";
+            setTimeout(() => {
+              saveMessage.innerText = "";
+            }, 3000);
+            return;
+          }
+
+          // prepare meaningful data to store
+          const countryData = {
+            id: currentCountry.cca2,
+            name: currentCountry.name.common,
+            officialName: currentCountry.name.official,
+            capital: currentCountry.capital ? currentCountry.capital[0] : "N/A",
+            region: currentCountry.region,
+            population: currentCountry.population,
+            flag: currentCountry.flags?.png || currentCountry.flags?.svg || "",
+            flagAlt:
+              currentCountry.flags?.alt ||
+              `Flag of ${currentCountry.name.common}`,
+            languages: currentCountry.languages
+              ? Object.values(currentCountry.languages).join(", ")
+              : "N/A",
+            currency: currentCountry.currencies
+              ? Object.values(currentCountry.currencies)[0]?.name
+              : "N/A",
+            savedAt: new Date().toISOString(),
+          };
+
+          // get existing saved countries or initialize empty array
+          const saved = localStorage.getItem("savedCountries");
+          const savedCountries = saved ? JSON.parse(saved) : [];
+
+          // add new country
+          savedCountries.push(countryData);
+
+          // save to localStorage
+          localStorage.setItem(
+            "savedCountries",
+            JSON.stringify(savedCountries),
+          );
+
+          // update button state
+          saveButton.classList.add("saved");
+          saveButton.innerHTML = "✓ Saved!";
+          saveButton.disabled = true;
+
+          // show success message
+          saveMessage.innerText = "✅ Country saved successfully!";
+          setTimeout(() => {
+            saveMessage.innerText = "";
+          }, 3000);
+        }
+
         // render country card
         function renderCountry(country) {
+          currentCountry = country;
+
           let flagHtml = "";
           if (country.flags?.png) {
-            flagHtml = `<img src="${country.flags.png}" alt="flag">`;
+            flagHtml = `<img src="${country.flags.png}" alt="${country.flags?.alt || "flag"}">`;
           } else if (country.flags?.svg) {
-            flagHtml = `<img src="${country.flags.svg}" alt="flag">`;
+            flagHtml = `<img src="${country.flags.svg}" alt="${country.flags?.alt || "flag"}">`;
           } else {
             flagHtml = `<div class="flag-placeholder">🏳️ no flag</div>`;
           }
@@ -503,6 +687,10 @@
                 </div>
             `;
           countryDisplay.innerHTML = html;
+
+          // show save section and update button state
+          saveSection.classList.remove("hidden");
+          updateSaveButtonState();
         }
 
         // fetch country by exact name
@@ -559,7 +747,7 @@
 
           try {
             const res = await fetch(
-              "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,languages,currencies",
+              "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,languages,currencies,cca2",
             );
             if (!res.ok) throw new Error(`API error ${res.status}`);
             const all = await res.json();
@@ -592,10 +780,10 @@
           }
         });
 
+        saveButton.addEventListener("click", saveCurrentCountry);
+
         // initial load (Italy as default)
         fetchCountry("Italy").catch(() => {});
-
-        // also allow clicking on the logo part just for fun (no action)
       })();
     </script>
   </body>

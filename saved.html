@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saved Countries · localStorage</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        background: #f9fbfd;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1.5rem 1rem;
+      }
+
+      .saved-container {
+        max-width: 1000px;
+        width: 100%;
+      }
+
+      /* Google-style logo (smaller) */
+      .google-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.2rem;
+        font-size: 2.5rem;
+        font-weight: 550;
+        letter-spacing: -2px;
+        margin: 0.5rem 0 0.8rem 0;
+        flex-wrap: wrap;
+      }
+      .g-letter {
+        color: #4285f4;
+      }
+      .o1-letter {
+        color: #ea4335;
+      }
+      .o2-letter {
+        color: #fbbc05;
+      }
+      .g2-letter {
+        color: #4285f4;
+      }
+      .l-letter {
+        color: #34a853;
+      }
+      .e-letter {
+        color: #ea4335;
+      }
+      .country-text {
+        font-size: 1.8rem;
+        font-weight: 400;
+        color: #5f6368;
+        margin-left: 12px;
+        border-left: 2px solid #dfe4e9;
+        padding-left: 18px;
+      }
+
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin: 0.5rem 0 2rem 0;
+      }
+      .nav-links a {
+        color: #1a3b5c;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.4rem 1.2rem;
+        border-radius: 40px;
+        background: #eef3fc;
+        border: 1px solid #cddff5;
+        transition: 0.2s;
+      }
+      .nav-links a:hover {
+        background: #dae6f8;
+        border-color: #7b9fd0;
+      }
+      .nav-links a.active {
+        background: #1e3a5f;
+        color: white;
+        border-color: #1e3a5f;
+      }
+
+      .saved-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .saved-header h2 {
+        font-size: 1.8rem;
+        color: #1f344b;
+        font-weight: 450;
+      }
+      .clear-btn {
+        background: #fff0e5;
+        border: 1px solid #ffb08c;
+        color: #b13e12;
+        padding: 0.6rem 1.5rem;
+        border-radius: 40px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .clear-btn:hover {
+        background: #ffe0d1;
+        border-color: #ff8c5a;
+      }
+
+      /* saved items grid */
+      .saved-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .saved-card {
+        background: white;
+        border-radius: 24px;
+        padding: 1.3rem;
+        box-shadow: 0 5px 20px rgba(0, 20, 40, 0.06);
+        border: 1px solid #e5eef8;
+        transition: transform 0.2s;
+        position: relative;
+      }
+      .saved-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0, 20, 40, 0.12);
+      }
+
+      .card-header {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .card-flag {
+        width: 60px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      }
+      .flag-placeholder-small {
+        width: 60px;
+        height: 45px;
+        background: #dae5f2;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        color: #2d4f78;
+      }
+      .card-title {
+        flex: 1;
+      }
+      .card-title h3 {
+        font-size: 1.2rem;
+        color: #1e3a5f;
+        margin-bottom: 0.2rem;
+      }
+      .card-title .official {
+        font-size: 0.75rem;
+        color: #6f7f99;
+      }
+
+      .card-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        margin: 1rem 0;
+        background: #f8fafd;
+        padding: 1rem;
+        border-radius: 16px;
+        font-size: 0.9rem;
+      }
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+      }
+      .detail-label {
+        font-size: 0.7rem;
+        color: #5c6f88;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .detail-value {
+        font-weight: 500;
+        color: #101f31;
+      }
+
+      .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.8rem;
+        font-size: 0.8rem;
+        color: #8a9bb0;
+      }
+      .remove-btn {
+        background: none;
+        border: 1px solid #ffb08c;
+        color: #b13e12;
+        padding: 0.4rem 1rem;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .remove-btn:hover {
+        background: #ffe0d1;
+        border-color: #ff8c5a;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 40px;
+        border: 2px dashed #cddff5;
+      }
+      .empty-state h3 {
+        font-size: 1.8rem;
+        color: #9aaec9;
+        margin-bottom: 1rem;
+      }
+      .empty-state p {
+        color: #6f7f99;
+        margin-bottom: 2rem;
+      }
+      .empty-state a {
+        background: #1e3a5f;
+        color: white;
+        text-decoration: none;
+        padding: 0.8rem 2rem;
+        border-radius: 40px;
+        display: inline-block;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: #34a853;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(52, 168, 83, 0.3);
+        animation: slideIn 0.3s;
+        z-index: 1000;
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      footer {
+        margin-top: 3rem;
+        font-size: 0.75rem;
+        color: #6f7f99;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="saved-container">
+      <!-- Google-style logo -->
+      <div class="google-logo">
+        <span class="g-letter">G</span>
+        <span class="o1-letter">o</span>
+        <span class="o2-letter">o</span>
+        <span class="g2-letter">g</span>
+        <span class="l-letter">l</span>
+        <span class="e-letter">e</span>
+        <span class="country-text">Saved</span>
+      </div>
+
+      <!-- navigation -->
+      <div class="nav-links">
+        <a href="countryinfoapi.html">🔍 Search</a>
+        <a href="#" class="active">📋 Saved Items</a>
+      </div>
+
+      <!-- saved items header -->
+      <div class="saved-header">
+        <h2>📌 Your Saved Countries</h2>
+        <button class="clear-btn" id="clearAllBtn">🗑️ Clear All</button>
+      </div>
+
+      <!-- saved items grid -->
+      <div id="savedGrid" class="saved-grid"></div>
+
+      <!-- empty state -->
+      <div id="emptyState" class="empty-state hidden">
+        <h3>🌍 No saved countries yet</h3>
+        <p>Start exploring and save countries you find interesting!</p>
+        <a href="countryinfoapi.html">🔍 Search for countries</a>
+      </div>
+
+      <!-- toast notification -->
+      <div id="toast" class="toast hidden"></div>
+
+      <footer>🗺️ localStorage saved items · data persists after refresh</footer>
+    </div>
+
+    <script>
+      (function () {
+        const savedGrid = document.getElementById("savedGrid");
+        const emptyState = document.getElementById("emptyState");
+        const clearAllBtn = document.getElementById("clearAllBtn");
+        const toast = document.getElementById("toast");
+
+        // show toast message
+        function showToast(message, type = "success") {
+          toast.textContent = message;
+          toast.style.background = type === "success" ? "#34A853" : "#EA4335";
+          toast.classList.remove("hidden");
+          setTimeout(() => {
+            toast.classList.add("hidden");
+          }, 3000);
+        }
+
+        // load and display saved countries
+        function loadSavedItems() {
+          const saved = localStorage.getItem("savedCountries");
+          const countries = saved ? JSON.parse(saved) : [];
+
+          if (countries.length === 0) {
+            savedGrid.innerHTML = "";
+            emptyState.classList.remove("hidden");
+            return;
+          }
+
+          emptyState.classList.add("hidden");
+
+          // sort by saved date (newest first)
+          countries.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+
+          let html = "";
+          countries.forEach((country, index) => {
+            const savedDate = new Date(country.savedAt).toLocaleDateString();
+
+            html += `
+                    <div class="saved-card" data-index="${index}">
+                        <div class="card-header">
+                            ${
+                              country.flag
+                                ? `<img src="${country.flag}" alt="${country.flagAlt}" class="card-flag">`
+                                : `<div class="flag-placeholder-small">🏳️</div>`
+                            }
+                            <div class="card-title">
+                                <h3>${country.name}</h3>
+                                <div class="official">${country.officialName || ""}</div>
+                            </div>
+                        </div>
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <span class="detail-label">capital</span>
+                                <span class="detail-value">${country.capital || "N/A"}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">region</span>
+                                <span class="detail-value">${country.region || "N/A"}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">population</span>
+                                <span class="detail-value">${country.population?.toLocaleString() || "N/A"}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">currency</span>
+                                <span class="detail-value">${country.currency || "N/A"}</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span>saved: ${savedDate}</span>
+                            <button class="remove-btn" onclick="removeCountry('${country.id}')">✕ Remove</button>
+                        </div>
+                    </div>
+                `;
+          });
+
+          savedGrid.innerHTML = html;
+        }
+
+        // remove a specific country
+        window.removeCountry = function (countryId) {
+          const saved = localStorage.getItem("savedCountries");
+          if (!saved) return;
+
+          let countries = JSON.parse(saved);
+          const countryToRemove = countries.find((c) => c.id === countryId);
+          countries = countries.filter((c) => c.id !== countryId);
+
+          localStorage.setItem("savedCountries", JSON.stringify(countries));
+          loadSavedItems();
+          showToast(
+            `✅ Removed ${countryToRemove?.name || "country"} from saved`,
+          );
+        };
+
+        // clear all saved items
+        clearAllBtn.addEventListener("click", () => {
+          if (confirm("Are you sure you want to remove all saved countries?")) {
+            localStorage.removeItem("savedCountries");
+            loadSavedItems();
+            showToast("🗑️ All saved countries cleared");
+          }
+        });
+
+        // initial load
+        loadSavedItems();
+      })();
+    </script>
+  </body>
+</html>
